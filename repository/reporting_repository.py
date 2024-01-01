@@ -1,9 +1,10 @@
-from model.dto.measurement_response_dto import IOTDeviceMeasurementResponseDTO
+
 import logging
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
+from mapping.measurement_mapper import MeasurementMapper
 from model.database.models import Base, IotDevice, IotMeasurement
 
 logger = logging.getLogger(__name__)
@@ -30,10 +31,7 @@ class ReportingRepository:
                 IotMeasurement.created_date.desc()
             ).limit(num_measurements)
 
-            return [IOTDeviceMeasurementResponseDTO(
-                value=row.value,
-                created_date=row.created_date).model_dump_json()
-                    for row in query.all()]
+            return MeasurementMapper.map_to_measurement_dto(query.all())
         except SQLAlchemyError as e:
             logger.error(f"Database Error in get_measurements: {e}")
             raise
