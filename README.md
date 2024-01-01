@@ -1,0 +1,1 @@
+docker build -t iot-backoffice:1.0.0 .
