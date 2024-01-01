@@ -15,6 +15,9 @@ class ReportingService:
             if not device_identifier or not isinstance(num_measurements, int):
                 raise ValueError("Invalid input parameters")
             return self.reporting_repository.get_measurements(device_identifier, num_measurements)
+        except ValueError as ve:
+            logger.error(f"Error in get_device_measurements: {ve}")
+            raise
         except Exception as e:
             logger.error(f"Error in get_device_measurements: {e}")
             raise

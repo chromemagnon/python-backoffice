@@ -23,7 +23,7 @@ class ReportingRepository:
             device = self.get_device(session, device_identifier)
             if not device:
                 logger.warning(f"Device ID not found for identifier: {device_identifier}")
-                return []
+                raise ValueError(f"Device not found for identifier {device_identifier}")
 
             query = session.query(IotMeasurement.value, IotMeasurement.created_date).filter(
                 IotMeasurement.device_id == int(device.id)

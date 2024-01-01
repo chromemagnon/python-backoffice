@@ -23,6 +23,9 @@ class MeasurementController:
             except ValidationError as e:
                 logger.error(f"Validation error: {e}")
                 return jsonify({"error": "Invalid request"}), HTTPStatus.BAD_REQUEST
+            except ValueError as e:
+                logger.error(f"Value error: {e}")
+                return jsonify({"error": "Invalid request"}), HTTPStatus.INTERNAL_SERVER_ERROR
             except Exception as e:
                 logger.error(f"Error getting measurements: {e}")
                 return jsonify({"error": "Internal server error"}), HTTPStatus.INTERNAL_SERVER_ERROR
